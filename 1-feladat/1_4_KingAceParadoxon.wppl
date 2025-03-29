@@ -1,0 +1,33 @@
+// 1.4 – King–Ace paradoxon: a 'vagy' értelmezése változik
+
+var logicModel = function() {
+  // Véletlenszerűen van-e ász és/vagy király a kézben
+  var hasAce = flip(0.5);     // 50% eséllyel van ász
+  var hasKing = flip(0.5);    // 50% eséllyel van király
+
+  // A "vagy" értelmezése (3-féle lehet): OR, AND, XOR
+  var interpretation = uniformDraw(['OR', 'AND', 'XOR']);
+
+  // Mondat két része
+  var p1 = hasAce ? hasKing : true;        // "ha ász van, akkor király van"
+  var p2 = !hasAce ? hasKing : true;       // "ha nincs ász, akkor király van"
+
+  // Kombináljuk a két részt a választott 'vagy' szerint
+  var logicResult =
+    (interpretation === 'OR')  ? (p1 || p2) :
+    (interpretation === 'AND') ? (p1 && p2) :
+                                 ((p1 || p2) && !(p1 && p2)); // XOR
+
+  // Feltétel: csak akkor számítjuk, ha a mondat igaz
+  condition(logicResult);
+
+  return {
+    Ace: hasAce,
+    King: hasKing,
+    Interpretation: interpretation
+  };
+};
+
+// Következtetés: milyen gyakran van tényleg király, ha a mondat igaz
+var eredmeny = Infer({model: logicModel, method: 'enumerate'});
+viz.auto(eredmeny);
