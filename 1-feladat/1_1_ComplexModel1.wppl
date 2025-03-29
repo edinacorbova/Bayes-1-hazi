@@ -1,18 +1,27 @@
+// Lehetséges jellemzők
 var feature1 = ['könyvtáros', 'tanár'];
 var feature2 = ['csendes', 'cserfes'];
 var operator = [' és ', ' vagy '];
 
+// Modell: Diszlexiás következtető ágens
 var ComplexModel1 = function() {
-  var word1 = uniformDraw(feature1);
-  var op = uniformDraw(operator);
-  var word2 = uniformDraw(feature2);
+  
+  // Premissza elemek véletlenszerű kiválasztása
+  var word1 = uniformDraw(feature1);     // pl. könyvtáros
+  var op = uniformDraw(operator);        // 'és' vagy 'vagy'
+  var word2 = uniformDraw(feature2);     // pl. csendes
 
+  // Premissza kiírása
   print('Premissza: Panni ' + word1 + op + word2 + '.');
 
-  var conclusionWord = flip(0.8) ? word2 : (word2 === 'csendes' ? 'cserfes' : 'csendes');
+  // Diszlexiás torzítás: 80%-ban helyes, 20%-ban felcseréli a szót
+  var conclusionWord = flip(0.8) ? word2
+                                 : (word2 === 'csendes' ? 'cserfes' : 'csendes');
 
+  // Konklúzió kiírása
   print('Konklúzió: Panni ' + conclusionWord + '.');
 
+  // Érvényesség ellenőrzése (csak akkor érvényes, ha 'és' és a szó megegyezik)
   var ervenyes = (op === ' és ')
     ? ((word2 === conclusionWord) ? 'érvényes' : 'nem érvényes')
     : 'nem érvényes';
@@ -22,4 +31,5 @@ var ComplexModel1 = function() {
   return ervenyes;
 };
 
+// Modell futtatása egyszerűen
 var output = Infer({model: ComplexModel1, method: 'rejection', samples: 1});
