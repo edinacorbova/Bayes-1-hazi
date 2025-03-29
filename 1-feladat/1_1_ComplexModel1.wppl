@@ -1,0 +1,25 @@
+var feature1 = ['könyvtáros', 'tanár'];
+var feature2 = ['csendes', 'cserfes'];
+var operator = [' és ', ' vagy '];
+
+var ComplexModel1 = function() {
+  var word1 = uniformDraw(feature1);
+  var op = uniformDraw(operator);
+  var word2 = uniformDraw(feature2);
+
+  print('Premissza: Panni ' + word1 + op + word2 + '.');
+
+  var conclusionWord = flip(0.8) ? word2 : (word2 === 'csendes' ? 'cserfes' : 'csendes');
+
+  print('Konklúzió: Panni ' + conclusionWord + '.');
+
+  var ervenyes = (op === ' és ')
+    ? ((word2 === conclusionWord) ? 'érvényes' : 'nem érvényes')
+    : 'nem érvényes';
+
+  print('Érvényesség: ' + ervenyes);
+
+  return ervenyes;
+};
+
+var output = Infer({model: ComplexModel1, method: 'rejection', samples: 1});
