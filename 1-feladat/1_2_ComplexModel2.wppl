@@ -1,0 +1,40 @@
+var feature1 = ['könyvtáros', 'tanár'];
+var feature2 = ['csendes', 'cserfes'];
+var operator = [' és ', ' vagy '];
+
+var ComplexModel2 = function() {
+  var word1 = uniformDraw(feature1);      // pl. könyvtáros
+  var op = uniformDraw(operator);         // és / vagy
+  var word2 = uniformDraw(feature2);      // pl. csendes
+
+  print('Premissza: Panni ' + word1 + op + word2 + '.');
+
+  // Az ágens értelmezése a kötőszóról:
+  var interpretedOp = (op === 'és') ?       // ha 'és' van írva:
+                        (flip(0.95) ? 'és' : 'vagy') :
+                        (flip(0.80) ? 'és' : 'vagy'); // ha 'vagy' van írva
+
+  print('Ágens értelmezése szerint: "' + interpretedOp + '"');
+
+  // Az ágens ezekre tud következtetni
+  var canInferWord1 = (interpretedOp === 'és' || interpretedOp === 'vagy');
+  var canInferWord2 = (interpretedOp === 'és');
+
+  // Következtetés logikája:
+  var inferredFeature = flip(0.5) ?
+                          (canInferWord1 ? word1 : 'nem ismert') :
+                          (canInferWord2 ? word2 : 'nem ismert');
+
+  print('Konklúzió: Panni ' + inferredFeature + '.');
+
+  // Érvényesség akkor, ha tényleg következik a premisszából
+  var ervenyes = (inferredFeature === word1 || inferredFeature === word2)
+                   ? 'érvényes'
+                   : 'nem érvényes';
+
+  print('Érvényesség: ' + ervenyes);
+
+  return ervenyes;
+};
+
+var output = Infer({model: ComplexModel2, method: 'rejection', samples: 1});
