@@ -1,0 +1,17 @@
+// 1.3 – Két dobókocka, összeg legalább 4
+
+var ketKocka = function() {
+  var dob1 = randomInteger(6) + 1;
+  var dob2 = randomInteger(6) + 1;
+  var osszeg = dob1 + dob2;
+
+  // Csak akkor számoljuk bele, ha az összeg legalább 4
+  condition(osszeg >= 4);
+
+  return osszeg;
+}
+
+// Enumerate metódussal végigmegy az összes lehetőségen
+var eloszlas = Infer({method: 'enumerate', model: ketKocka});
+
+viz.auto(eloszlas);
