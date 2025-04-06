@@ -1,0 +1,20 @@
+// Kártyák egyedi azonosítóval: 0–3 = király, 4–51 = nem király
+var kartyaPakli = map(function(i) {
+  return {id: i, tipus: i < 4 ? 'király' : 'nem király'};
+}, _.range(52));
+
+var huzas = function() {
+  var lap1 = uniformDraw(kartyaPakli);
+  var lap2 = uniformDraw(kartyaPakli);
+
+  // Nem húzhatjuk ki ugyanazt a kártyát kétszer
+  condition(lap1.id !== lap2.id);
+
+  var egyikKiraly = lap1.tipus === 'király' || lap2.tipus === 'király';
+  var egyikNemKiraly = lap1.tipus === 'nem király' || lap2.tipus === 'nem király';
+
+  return (egyikKiraly && egyikNemKiraly) ? 'igen' : 'nem';
+};
+
+var eredmeny = Infer({method: 'enumerate', model: huzas});
+viz.auto(eredmeny);
