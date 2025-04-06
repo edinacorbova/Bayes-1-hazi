@@ -1,0 +1,13 @@
+var model = function() {
+  var X = randomInteger(4); // 0–3
+  var Y = randomInteger(4);
+  var Z = randomInteger(4);
+  var W = X + Y + Z;
+
+  condition(W === 7); // Csak azokat az eseteket vizsgáljuk, ahol W = 7
+
+  return X; // Kíváncsiak vagyunk X eloszlására
+};
+
+var eredmeny = Infer({method: 'enumerate', model: model});
+viz.auto(eredmeny);
