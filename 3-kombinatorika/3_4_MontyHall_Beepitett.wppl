@@ -1,0 +1,28 @@
+var montyHallBeepitett = function() {
+  var ajtok = [0, 1, 2];
+
+  var auto = uniformDraw(ajtok); // Hol van az autó?
+
+  // Beépített ember tippje – 50% eséllyel helyes
+  var beepitettTipp = flip(0.5) ? auto : uniformDraw(ajtok.filter(function(a) { return a !== auto; }));
+
+  // Mi azt választjuk, amit ő mondott
+  var valasztott = beepitettTipp;
+
+  // Monty mutat egy ajtót, amin biztos kecske van (nem autó, nem választott)
+  var montyMutat = uniformDraw(ajtok.filter(function(a) {
+    return a !== auto && a !== valasztott;
+  }));
+
+  // Váltás után marad 1 ajtó, amit se mi, se Monty nem választott
+  var valtottAjto = ajtok.filter(function(a) {
+    return a !== valasztott && a !== montyMutat;
+  })[0];
+
+  var nyertunk = (valtottAjto === auto) ? 'váltva nyer' : 'váltva veszít';
+
+  return nyertunk;
+};
+
+var eredmeny = Infer({method: 'enumerate', model: montyHallBeepitett});
+viz.auto(eredmeny);
