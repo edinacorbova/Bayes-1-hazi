@@ -1,0 +1,23 @@
+var montyHall = function() {
+  var ajtok = [0, 1, 2];
+  
+  var auto = uniformDraw(ajtok);    // hol van az autó?
+  var valasztott = uniformDraw(ajtok);  // játékos választ
+
+  // Monty egy kecskés ajtót mutat meg, ami nem az autó és nem a választott
+  var montyMutat = uniformDraw(ajtok.filter(function(a) {
+    return a !== auto && a !== valasztott;
+  }));
+
+  // Mi történik, ha váltunk? Az az ajtó, amit nem választottunk, és Monty sem mutatta
+  var valtottAjto = ajtok.filter(function(a) {
+    return a !== valasztott && a !== montyMutat;
+  })[0];
+
+  var nyeres = (valtottAjto === auto) ? 'váltva nyer' : 'váltva veszít';
+
+  return nyeres;
+};
+
+var eredmeny = Infer({method: 'enumerate', model: montyHall});
+viz.auto(eredmeny);
