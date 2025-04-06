@@ -1,0 +1,17 @@
+var data = [28, 31, 44, 29];  // mérési adatok
+
+var possibleWeights = _.range(20, 51);  // lehetséges súlyértékek: 20–50 g
+
+var model = function() {
+  var weight = uniformDraw(possibleWeights);  // válasszunk egy súlyt
+
+  // minden mérés egy Gauss-eloszlású zajjal torzított érték a súly körül
+  map(function(d) {
+    observe(Gaussian({mu: weight, sigma: 2}), d);
+  }, data);
+
+  return weight;
+};
+
+var posterior = Infer({method: "enumerate", model: model});  // enumerálás működik!
+viz.auto(posterior);  // megjelenítés
