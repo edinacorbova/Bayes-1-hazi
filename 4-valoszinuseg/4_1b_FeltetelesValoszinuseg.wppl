@@ -1,0 +1,26 @@
+var modell = function() {
+  var szin1 = randomInteger(4) + 1;
+  var figura1 = randomInteger(4) + 1;
+  var szin2 = randomInteger(4) + 1;
+  var figura2 = randomInteger(4) + 1;
+
+  condition(
+    !(szin1 == szin2 && figura1 == figura2) &&
+    (!(szin1 == 1) || !(figura2 == 1)) &&
+    (!(szin2 == 1) || !(figura1 == 1))
+  );
+
+  var X = [szin1, figura1];
+  var Y = [szin2, figura2];
+
+  // Feltétel: a második lap pikk dáma
+  condition(szin2 == 4 && figura2 == 2);
+
+  // Kérdés: Az első lap treff király vagy treff ász?
+  var esemeny = (szin1 == 2 && (figura1 == 1 || figura1 == 4)) ? 'igen' : 'nem';
+
+  return esemeny;
+};
+
+var eredmeny = Infer({method: 'enumerate', model: modell});
+viz.auto(eredmeny);
